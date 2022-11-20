@@ -1,0 +1,27 @@
+server:
+  # any desirable port
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    # {any_schema} is chosen Schema.
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=todo_list
+    username: postgres
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      # create/create-drop/update/validate/none
+      ddl-auto: none
+  main:
+    # Turn off the Spring banner in console after running the app.
+    banner-mode: 'off'
+  sql:
+    init:
+      # Initialize an SQL database. Types: always / never / embedded
+      mode: always
+logging:
+  level:
+    org:
+      # turn off WARN {JpaBaseConfiguration$JpaWebConfiguration}
+      springframework: ERROR
