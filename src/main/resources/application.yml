@@ -1,6 +1,6 @@
 server:
   # any desirable port
-  port: 8080
+  port: 7999
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -15,7 +15,7 @@ spring:
       ddl-auto: update
   main:
     # Turn off the Spring banner in console after running the app.
-    banner-mode: 'off'
+    banner-mode: off
   sql:
     init:
       # Initialize an SQL database. Types: always / never / embedded

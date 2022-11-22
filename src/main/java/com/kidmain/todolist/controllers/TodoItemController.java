@@ -2,6 +2,7 @@ package com.kidmain.todolist.controllers;
 
 import com.kidmain.todolist.entities.TodoItem;
 import com.kidmain.todolist.services.TodoItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class TodoItemController {
     private TodoItemService todoItemService;
 
@@ -27,21 +29,25 @@ public class TodoItemController {
 
     @GetMapping
     public String get() {
+        log.info("GET request: .../ | SUCCESS");
         return "Hello from GET request";
     }
 
     @GetMapping("/item/{id}")
     public TodoItem getItem(@PathVariable("id") Long id) {
+        log.info("GET request: .../item/" + id + " | SUCCESS");
         return todoItemService.getTodoItem(id);
     }
 
     @GetMapping("/items")
     public List<TodoItem> getAllItems() {
+        log.info("GET request: .../items | SUCCESS");
         return todoItemService.getAllTodoItems();
     }
 
     @PostMapping()
     public String post() {
+        log.info("POST request: .../ | SUCCESS");
         return "Hello from POST request";
     }
 

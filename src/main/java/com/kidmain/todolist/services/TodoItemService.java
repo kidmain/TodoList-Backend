@@ -3,12 +3,14 @@ package com.kidmain.todolist.services;
 import com.kidmain.todolist.entities.TodoItem;
 import com.kidmain.todolist.exceptions.TodoItemNotFoundException;
 import com.kidmain.todolist.repositories.TodoItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class TodoItemService {
     private TodoItemRepository repository;
 
@@ -18,8 +20,11 @@ public class TodoItemService {
     }
 
     public TodoItem getTodoItem(Long id) {
-        return repository.findById(id).
-                orElseThrow(() -> new TodoItemNotFoundException("Item with " + id + " not found"));
+        log.info("Get todoItem with id: " + id);
+        return repository.findById(id).orElseThrow(() -> {
+            log.error("Item with id: " + id + " not found");
+            throw new TodoItemNotFoundException("Item with " + id + " not found");
+        });
     }
 
     public List<TodoItem> getAllTodoItems() {
