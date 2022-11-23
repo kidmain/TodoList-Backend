@@ -3,7 +3,6 @@ package com.kidmain.todolist.controllers;
 import com.kidmain.todolist.entities.TodoItem;
 import com.kidmain.todolist.services.TodoItemService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.Duration;
 import java.util.List;
 
 @RestController
 @Slf4j
 public class TodoItemController {
-    private TodoItemService todoItemService;
+    private final TodoItemService todoItemService;
 
-    @Autowired
     public TodoItemController(TodoItemService todoItemService) {
         this.todoItemService = todoItemService;
     }
