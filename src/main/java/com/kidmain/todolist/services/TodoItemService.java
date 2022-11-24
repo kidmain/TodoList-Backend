@@ -46,4 +46,8 @@ public class TodoItemService {
     public void updateTodoItem(TodoItem todoItem) {
         repository.save(todoItem);
     }
+
+    public List<TodoItem> getAllTodoItemsByUser(Long id) {
+        return repository.findAllByUserId(id);
+    }
 }

@@ -4,7 +4,6 @@ import com.kidmain.todolist.entities.TodoItem;
 import com.kidmain.todolist.services.TodoItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,64 +19,59 @@ import java.util.List;
 @RestController
 @Slf4j
 public class TodoItemController {
-    private final TodoItemService todoItemService;
+    private final TodoItemService service;
 
-    public TodoItemController(TodoItemService todoItemService) {
-        this.todoItemService = todoItemService;
-    }
-
-    @GetMapping
-    public void get() {
-        log.info("GET request: .../");
-    }
-
-    @GetMapping("/item/{id}")
-    public TodoItem getItem(@PathVariable("id") Long id) {
-        log.info("GET request: .../item/" + id);
-        return todoItemService.getTodoItem(id);
+    public TodoItemController(TodoItemService service) {
+        this.service = service;
     }
 
     @GetMapping("/items")
     public List<TodoItem> getAllItems() {
         log.info("GET request: .../items");
-        return todoItemService.getAllTodoItems();
+        return service.getAllTodoItems();
     }
 
-    @PostMapping()
-    public String post() {
-        log.info("POST request: .../");
-        return "Hello from POST request";
+    @GetMapping("/item/{id}")
+    public TodoItem getItem(@PathVariable("id") Long id) {
+        log.info("GET request: .../item/ " + id);
+        return service.getTodoItem(id);
+    }
+
+    @GetMapping("/items/{userId}")
+    public List<TodoItem> getAllItemsByUser(@PathVariable("userId") Long id) {
+        log.info("GET request: .../items/ " + id);
+        return service.getAllTodoItemsByUser(id);
     }
 
     @Validated
     @PostMapping("/add")
     public void addItem(@Valid @RequestBody TodoItem todoItem) {
         log.info("POST request: .../add | {}", todoItem);
-        todoItemService.addTodoItem(todoItem);
+        service.addTodoItem(todoItem);
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<TodoItem> updateItem(@PathVariable("id") Long id, @RequestBody TodoItem todoItem) {
         log.info("PUT request: .../edit/" + id + " | {}", todoItem);
 
-        TodoItem newTodoItem = todoItemService.getTodoItem(id);
+        TodoItem newTodoItem = service.getTodoItem(id);
         if (todoItem.getAction() != null) newTodoItem.setAction(todoItem.getAction());
         newTodoItem.setDone(todoItem.isDone());
 
         log.info("PUT request: .../edit/" + id + " | {}", newTodoItem);
-        todoItemService.updateTodoItem(newTodoItem);
+        service.updateTodoItem(newTodoItem);
         return ResponseEntity.ok(newTodoItem);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteItem(@PathVariable("id") Long id) {
         log.info("DELETE request: .../delete/" + id);
-        todoItemService.deleteTodoItem(id);
+        service.deleteTodoItem(id);
     }
 
     @DeleteMapping("/delete/all")
     public void deleteAllItems() {
         log.info("DELETE request: .../delete/all");
-        todoItemService.deleteAllTodoItems();
+        service.deleteAllTodoItems();
     }
 }
