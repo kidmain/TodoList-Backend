@@ -1,10 +1,7 @@
 package com.kidmain.todolist.services;
 
-import com.kidmain.todolist.entities.TodoItem;
 import com.kidmain.todolist.entities.TodoUser;
-import com.kidmain.todolist.exceptions.TodoItemNotFoundException;
 import com.kidmain.todolist.exceptions.TodoUserNotFoundException;
-import com.kidmain.todolist.repositories.TodoItemRepository;
 import com.kidmain.todolist.repositories.TodoUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class TodoUserService {
-    private TodoUserRepository repository;
+    private final TodoUserRepository repository;
 
     @Autowired
     public TodoUserService(TodoUserRepository repository) {

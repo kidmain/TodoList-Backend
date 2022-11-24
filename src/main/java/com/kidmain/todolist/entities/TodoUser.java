@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class TodoUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +45,6 @@ public class TodoUser {
     private Integer totalScore;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user")
-    private List<TodoItem> items;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<TodoTask> tasks;
 }

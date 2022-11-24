@@ -14,18 +14,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "todolist_items")
+@Table(name = "todolist_tasks")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoItem {
+@ToString
+public class TodoTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "action")
+    @Column(name = "task")
     @NotNull(message = "Action must not be null")
     @NotBlank(message = "Action must not be blank")
     @NotEmpty(message = "Action must not be empty")
