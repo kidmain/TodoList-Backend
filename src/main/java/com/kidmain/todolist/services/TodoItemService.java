@@ -35,6 +35,10 @@ public class TodoItemService {
         repository.deleteById(id);
     }
 
+    public void deleteAllTodoItems() {
+        repository.deleteAll();
+    }
+
     public void addTodoItem(TodoItem todoItem) {
         repository.save(todoItem);
     }
