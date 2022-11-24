@@ -1,6 +1,5 @@
 package com.kidmain.todolist.controllers;
 
-import com.kidmain.todolist.entities.TodoItem;
 import com.kidmain.todolist.entities.TodoUser;
 import com.kidmain.todolist.services.TodoUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +46,7 @@ public class TodoUserController {
         TodoUser newTodoUser = service.getTodoUser(id);
         if (todoUser.getTotalScore() != null) newTodoUser.setTotalScore(todoUser.getTotalScore());
 
-        service.addTodoUser(newTodoUser);
+        service.updateTodoUser(newTodoUser);
         return ResponseEntity.ok(newTodoUser);
     }
 
