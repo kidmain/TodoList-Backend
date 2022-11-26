@@ -27,7 +27,7 @@ public class TodoTaskService {
     }
 
     public List<TodoTask> getAllTodoTasks() {
-        return repository.findAll();
+        return repository.findAllByOrderById();
     }
 
     public void deleteTodoTask(Long id) {

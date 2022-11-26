@@ -27,7 +27,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class TodoUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +46,12 @@ public class TodoUser {
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TodoTask> tasks;
+
+    @Override
+    public String toString() {
+        return "TodoUser{" + "id=" + id +
+                ", username='" + username + '\'' +
+                ", totalScore=" + totalScore +
+                '}';
+    }
 }

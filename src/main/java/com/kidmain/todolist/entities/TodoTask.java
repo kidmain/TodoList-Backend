@@ -19,7 +19,6 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class TodoTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,7 @@ public class TodoTask {
     @NotBlank(message = "Action must not be blank")
     @NotEmpty(message = "Action must not be empty")
     @Size(min = 3, message = "Action must have more than 3 characters")
-    private String action;
+    private String task;
 
     @Column(name = "is_done")
     private boolean isDone;
@@ -40,4 +39,12 @@ public class TodoTask {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private TodoUser user;
+
+    @Override
+    public String toString() {
+        return "TodoTask{" + "id=" + id +
+                ", task='" + task + '\'' +
+                ", isDone=" + isDone +
+                '}';
+    }
 }

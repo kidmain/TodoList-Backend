@@ -55,7 +55,7 @@ public class TodoTaskController {
         log.info("PUT request: .../edit/" + id + " | {}", TodoTask);
 
         TodoTask newTodoTask = service.getTodoTask(id);
-        if (TodoTask.getAction() != null) newTodoTask.setAction(TodoTask.getAction());
+        if (TodoTask.getTask() != null) newTodoTask.setTask(TodoTask.getTask());
         newTodoTask.setDone(TodoTask.isDone());
 
         log.info("PUT request: .../edit/" + id + " | {}", newTodoTask);
