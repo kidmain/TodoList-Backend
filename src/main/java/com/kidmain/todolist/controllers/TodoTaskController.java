@@ -74,4 +74,9 @@ public class TodoTaskController {
         log.info("DELETE request: .../delete/all");
         service.deleteAllTodoTasks();
     }
+
+    @GetMapping("/test")
+    public String securityTest() {
+        return "Hello from prohibited page";
+    }
 }

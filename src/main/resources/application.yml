@@ -21,8 +21,3 @@ spring:
       # Initialize an SQL database. Types: always / never / embedded
       mode: always
 #      platform: postgres
-logging:
-  level:
-    org:
-      # turn off WARN {JpaBaseConfiguration$JpaWebConfiguration}
-      springframework: ERROR
