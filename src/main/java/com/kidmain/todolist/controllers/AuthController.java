@@ -1,5 +1,6 @@
 package com.kidmain.todolist.controllers;
 
+import com.kidmain.todolist.dto.SignInDTO;
 import com.kidmain.todolist.dto.SignUpDTO;
 import com.kidmain.todolist.entities.TodoRole;
 import com.kidmain.todolist.entities.TodoUser;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,5 +54,16 @@ public class AuthController {
 
         userRepository.save(user);
         return new ResponseEntity<>("User sign up success", HttpStatus.OK);
+    }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<String> signIn(@RequestBody SignInDTO signInDTO) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        signInDTO.getUsername(), signInDTO.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("User signed success", HttpStatus.OK);
     }
 }
