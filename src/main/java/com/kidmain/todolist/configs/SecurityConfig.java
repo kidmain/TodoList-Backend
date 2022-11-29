@@ -1,6 +1,7 @@
 package com.kidmain.todolist.configs;
 
 import com.kidmain.todolist.security.JwtAuthEntryPoint;
+import com.kidmain.todolist.security.JwtAuthenticationFilter;
 import com.kidmain.todolist.services.TodoUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,14 +23,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //@ComponentScan(basePackages = "com.kidmain.todolist")
 public class SecurityConfig {
 
-    private final JwtAuthEntryPoint authEntryPoint;
-    private final TodoUserDetailsService userDetailsService;
+    @Autowired
+    private JwtAuthEntryPoint authEntryPoint;
 
     @Autowired
-    public SecurityConfig(JwtAuthEntryPoint authEntryPoint, TodoUserDetailsService userDetailsService) {
-        this.authEntryPoint = authEntryPoint;
-        this.userDetailsService = userDetailsService;
-    }
+    private TodoUserDetailsService userDetailsService;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -67,6 +66,9 @@ public class SecurityConfig {
 
                 .and()
                 .httpBasic();
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -96,5 +98,10 @@ public class SecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 }

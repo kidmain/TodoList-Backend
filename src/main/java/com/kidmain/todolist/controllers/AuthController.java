@@ -1,13 +1,13 @@
 package com.kidmain.todolist.controllers;
 
+import com.kidmain.todolist.dto.AuthResponseDTO;
 import com.kidmain.todolist.dto.SignInDTO;
 import com.kidmain.todolist.dto.SignUpDTO;
 import com.kidmain.todolist.entities.TodoRole;
 import com.kidmain.todolist.entities.TodoUser;
 import com.kidmain.todolist.repositories.TodoRoleRepository;
-import com.kidmain.todolist.repositories.TodoTaskRepository;
 import com.kidmain.todolist.repositories.TodoUserRepository;
-import org.hibernate.mapping.Collection;
+import com.kidmain.todolist.security.JwtGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +30,17 @@ public class AuthController {
     private final TodoUserRepository userRepository;
     private final TodoRoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtGenerator jwtGenerator;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, TodoUserRepository userRepository,
-                          TodoRoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+                          TodoRoleRepository roleRepository, PasswordEncoder passwordEncoder,
+                          JwtGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtGenerator = jwtGenerator;
     }
 
     @PostMapping("/sign-up")
@@ -57,13 +60,15 @@ public class AuthController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<String> signIn(@RequestBody SignInDTO signInDTO) {
+    public ResponseEntity<AuthResponseDTO> signIn(@RequestBody SignInDTO signInDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         signInDTO.getUsername(), signInDTO.getPassword()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed success", HttpStatus.OK);
+
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 }
