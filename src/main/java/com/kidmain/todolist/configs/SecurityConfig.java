@@ -36,30 +36,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/test/**").denyAll()
-                .antMatchers(HttpMethod.GET).permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/user/**", "/users/**", "/task/**", "/tasks/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .httpBasic();
+
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService users() {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("12345")
-                .roles("ADMIN")
-                .build();
-
-        UserDetails user = User.builder()
-                .username("user")
-                .password("12345")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
-    }
+//    @Bean
+//    public UserDetailsService users() {
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password("12345")
+//                .roles("ADMIN")
+//                .build();
+//
+//        UserDetails user = User.builder()
+//                .username("user")
+//                .password("12345")
+//                .roles("USER")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(admin, user);
+//    }
 
 }
