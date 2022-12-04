@@ -1,44 +1,58 @@
 package com.kidmain.todolist.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tasks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class TodoTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column
     private Long id;
 
-    @Column(name = "task")
-    @NotNull(message = "Action must not be null")
-    @NotBlank(message = "Action must not be blank")
-    @NotEmpty(message = "Action must not be empty")
-    @Size(min = 3, message = "Action must have more than 3 characters")
+    @Column
     private String task;
 
-    @Column(name = "is_done")
+    @Column
     private boolean isDone;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private TodoUser user;
+    public TodoTask() {
+    }
+
+    public TodoTask(Long id, String task, boolean isDone) {
+        this.id = id;
+        this.task = task;
+        this.isDone = isDone;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
 
     @Override
     public String toString() {

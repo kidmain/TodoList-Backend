@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class TodoTaskService {
+    private final int TASK_NAME_LENGTH = 3;
     private final TodoTaskRepository repository;
 
     @Autowired
@@ -19,7 +20,7 @@ public class TodoTaskService {
         this.repository = repository;
     }
 
-    public TodoTask getTodoTask(Long id) {
+    public TodoTask getTodoTaskById(Long id) {
         return repository.findById(id).orElseThrow(() -> {
             log.error("Task with id: " + id + " not found");
             throw new TodoTaskNotFoundException("Task with " + id + " not found");
@@ -30,23 +31,29 @@ public class TodoTaskService {
         return repository.findAllByOrderById();
     }
 
-    public void deleteTodoTask(Long id) {
-        repository.deleteById(id);
+    public void deleteTodoTaskById(Long id) {
+        repository.delete(getTodoTaskById(id));
     }
 
     public void deleteAllTodoTasks() {
         repository.deleteAll();
     }
 
-    public void addTodoTask(TodoTask todoTask) {
-        repository.save(todoTask);
+    public boolean addTodoTask(TodoTask todoTask) {
+        if (todoTask.getTask() == null || todoTask.getTask().isEmpty() || todoTask.getTask().isBlank()) return false;
+        if (todoTask.getTask().length() < TASK_NAME_LENGTH) return false;
+        else {
+            repository.save(todoTask);
+            return true;
+        }
     }
 
-    public void updateTodoTask(TodoTask todoTask) {
-        repository.save(todoTask);
-    }
-
-    public List<TodoTask> getAllTodoTasksByUser(Long id) {
-        return repository.findAllByUserId(id);
+    public boolean updateTodoTask(TodoTask todoTask) {
+        if (todoTask.getTask().isEmpty() || todoTask.getTask().isBlank()) return false;
+        if (todoTask.getTask().length() < TASK_NAME_LENGTH) return false;
+        else {
+            repository.save(todoTask);
+            return true;
+        }
     }
 }
