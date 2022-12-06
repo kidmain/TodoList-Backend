@@ -19,12 +19,12 @@ public class TodoTask {
     private String task;
 
     @Column
-    private boolean isDone;
+    private Boolean isDone;
 
     public TodoTask() {
     }
 
-    public TodoTask(Long id, String task, boolean isDone) {
+    public TodoTask(Long id, String task, Boolean isDone) {
         this.id = id;
         this.task = task;
         this.isDone = isDone;
@@ -46,11 +46,11 @@ public class TodoTask {
         this.task = task;
     }
 
-    public boolean isDone() {
+    public Boolean isDone() {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(Boolean done) {
         isDone = done;
     }
 

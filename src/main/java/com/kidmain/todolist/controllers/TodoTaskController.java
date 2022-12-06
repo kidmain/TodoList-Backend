@@ -61,7 +61,7 @@ public class TodoTaskController {
         if (todoTask.getTask() != null) {
             task.setTask(todoTask.getTask());
         }
-        if (task.isDone() != todoTask.isDone()) {
+        if (todoTask.isDone() != null) {
             task.setDone(todoTask.isDone());
         }
 
